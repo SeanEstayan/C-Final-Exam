@@ -1,0 +1,367 @@
+//Estayan Sean Paula G.
+//BSIT 2-1
+//Structured Programming
+//1st semestral Final exam
+using System;
+using System.Collections.Generic;
+
+namespace BiñanVotingSystem
+{
+    class Program
+    {
+        static List <string> vicemayor = new List<string>{"ALONTE, GEL (PDPLBN)","PERALTA, MARIO (NP)"};
+        static List <string> mayor = new List <string>{"BORJA, BOBET DOBOL B (PFP)","DIMAGUILA, ATTY ARMAN (PDPLBN)","YATCO, DONNA (NP)"};
+        static List <string> representative = new List <string>{"ALONTE, LEN-LEN (PDPLBN)","YATCO, PARENG MIKE (PFP)"};
+        static List <string> vicegov = new List <string>{"Agustin Parma (IND)","Jerico Ejercito (PFP)","Katherine Agapay (Incumbent)"};
+        static List <string> governor = new List <string>{"Ramil Hernandez (PDPLBN)", "Sol Aragones (NP)"};
+        static List <string> voters = new List<string>();
+
+        static void Main(string[] args)
+        {
+            
+            Console.WriteLine("");
+            Console.WriteLine("Welcome to Biñan voting system 2k22");
+            Console.WriteLine("****************************************");
+            
+            
+            do
+            {
+            Console.WriteLine("");
+            Console.WriteLine("****************************************");
+            Console.WriteLine("Press 1 if you want to Register");
+            Console.WriteLine("Press x if you want to exit");
+            var user = Console.ReadLine();
+            if(user.ToLower() == "x")
+            {
+            Console.WriteLine("Program Terminated....Exitting....");
+            break;
+            }
+            else if(user == "1")
+            {
+
+            int numVoters = GetNumVoters();
+            GetVoterNames(numVoters);
+
+            Dictionary<string, List<string>> votesVM = GetVotesForVM();
+            Dictionary<string, List<string>> votesM = GetVotesForM();
+            Dictionary<string, List<string>> votesRep = GetVotesForRep();
+            Dictionary<string, List<string>> votesVG = GetVotesForVG();
+            Dictionary<string, List<string>> votesGov = GetVotesForGov();
+
+            Dictionary<string, int> voteCountsVM = TallyVotesForVM(votesVM);
+            Dictionary<string, int> voteCountsM = TallyVotesForM(votesM);
+            Dictionary<string, int> voteCountsRep = TallyVotesForRep(votesRep);
+            Dictionary<string, int> voteCountsVG = TallyVotesForVG(votesVG);
+            Dictionary<string, int> voteCountsGov = TallyVotesForGov(votesGov);
+
+            DisplayResultsForVM(voteCountsVM);
+            DisplayResultsForM(voteCountsM);
+            DisplayResultsForRep(voteCountsRep);
+            DisplayResultsForVG(voteCountsVG);
+            DisplayResultsForGov(voteCountsGov);
+            }
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
+            break;
+            }
+            while(true);
+            
+        
+        }
+        static int GetNumVoters()
+        {
+            Console.WriteLine("Please enter the number of voters:");
+            return int.Parse(Console.ReadLine());
+
+        }
+        static void GetVoterNames(int numVoters)
+        {
+            for (int i = 1; i <= numVoters; i++)
+            { 
+                Console.WriteLine("****************************************");
+                Console.WriteLine("Please enter the fullname of voter " + i + ":");
+                string voterName = Console.ReadLine();
+                voters.Add(voterName);
+                
+            }
+        }
+
+        static Dictionary<string, List<string>> GetVotesForVM()
+        {
+            Dictionary<string, List<string>> votesVM = new Dictionary<string, List<string>>();
+            foreach (string candidate in vicemayor)
+            {
+                votesVM.Add(candidate, new List<string>());
+            }
+            foreach (string voter in voters)
+            {
+                Console.WriteLine("****************************************");
+                Console.WriteLine("Voter: " + voter);
+                Console.WriteLine("****************************************");
+                GetVoterSelectionForVM(votesVM);
+                Console.WriteLine("Thank you for voting!\n");
+                Console.WriteLine("****************************************");
+            }
+            return votesVM;
+        }
+        static Dictionary<string, List<string>> GetVotesForM()
+        {
+            Dictionary<string, List<string>> votesM = new Dictionary<string, List<string>>();
+            foreach (string candidate in mayor)
+            {
+                votesM.Add(candidate, new List<string>());
+            }
+            foreach (string voter in voters)
+            {
+                Console.WriteLine("Voter: " + voter);
+                Console.WriteLine("****************************************");
+                GetVoterSelectionForM(votesM);
+                Console.WriteLine("Thank you for voting!\n");
+                Console.WriteLine("****************************************");
+            }
+            return votesM;
+        }
+        static Dictionary<string, List<string>> GetVotesForRep()
+        {
+            Dictionary<string, List<string>> votesRep = new Dictionary<string, List<string>>();
+            foreach (string candidate in representative)
+            {
+                votesRep.Add(candidate, new List<string>());
+            }
+            foreach (string voter in voters)
+            {
+                Console.WriteLine("Voter: " + voter);
+                Console.WriteLine("****************************************");
+                GetVoterSelectionForRep(votesRep);
+                Console.WriteLine("Thank you for voting!\n");
+                Console.WriteLine("****************************************");
+            }
+            return votesRep;
+        }
+        static Dictionary<string, List<string>> GetVotesForVG()
+        {
+            Dictionary<string, List<string>> votesVG = new Dictionary<string, List<string>>();
+            foreach (string candidate in vicegov)
+            {
+                votesVG.Add(candidate, new List<string>());
+            }
+            foreach (string voter in voters)
+            {
+                Console.WriteLine("Voter: " + voter);
+                Console.WriteLine("****************************************");
+                GetVoterSelectionForVG(votesVG);
+                Console.WriteLine("Thank you for voting!\n");
+                Console.WriteLine("****************************************");
+            }
+            return votesVG;
+        }
+        static Dictionary<string, List<string>> GetVotesForGov()
+        {
+            Dictionary<string, List<string>> votesGov = new Dictionary<string, List<string>>();
+            foreach (string candidate in governor)
+            {
+                votesGov.Add(candidate, new List<string>());
+            }
+            foreach (string voter in voters)
+            {
+                Console.WriteLine("Voter: " + voter);
+                Console.WriteLine("****************************************");
+                GetVoterSelectionForGov(votesGov);
+                Console.WriteLine("Thank you for voting!\n");
+                Console.WriteLine("****************************************");
+            }
+            return votesGov;
+        }
+
+        static void GetVoterSelectionForVM(Dictionary<string, List<string>> votesVM)
+        {
+            Console.WriteLine("Please select a candidate:");
+            for (int i = 0; i < vicemayor.Count; i++)
+            {
+                Console.WriteLine(i + 1 + ". " + vicemayor[i]);
+            }
+            Console.Write("You voted: ");
+            int choice = int.Parse(Console.ReadLine());
+            string selectedCandidate = vicemayor[choice - 1];
+            votesVM[selectedCandidate].Add(selectedCandidate);
+        }
+        static void GetVoterSelectionForM(Dictionary<string, List<string>> votesM)
+        {
+            Console.WriteLine("Please select a candidate:");
+            for (int i = 0; i < mayor.Count; i++)
+            {
+                Console.WriteLine(i + 1 + ". " + mayor[i]);
+            }
+            Console.Write("You voted: ");
+            int choice = int.Parse(Console.ReadLine());
+            string selectedCandidate = mayor[choice - 1];
+            votesM[selectedCandidate].Add(selectedCandidate);
+        }
+        static void GetVoterSelectionForRep(Dictionary<string, List<string>> votesRep)
+        {
+            Console.WriteLine("Please select a candidate:");
+            for (int i = 0; i < representative.Count; i++)
+            {
+                Console.WriteLine(i + 1 + ". " + representative[i]);
+            }
+            Console.Write("You voted: ");
+            int choice = int.Parse(Console.ReadLine());
+            string selectedCandidate = representative[choice - 1];
+            votesRep[selectedCandidate].Add(selectedCandidate);
+        }
+        static void GetVoterSelectionForVG(Dictionary<string, List<string>> votesVG)
+        {
+            Console.WriteLine("Please select a candidate:");
+            for (int i = 0; i < vicegov.Count; i++)
+            {
+                Console.WriteLine(i + 1 + ". " + vicegov[i]);
+            }
+            Console.Write("You voted: ");
+            int choice = int.Parse(Console.ReadLine());
+            string selectedCandidate = vicegov[choice - 1];
+            votesVG[selectedCandidate].Add(selectedCandidate);
+        }
+        static void GetVoterSelectionForGov(Dictionary<string, List<string>> votesGov)
+        {
+            Console.WriteLine("Please select a candidate:");
+            for (int i = 0; i < governor.Count; i++)
+            {
+                Console.WriteLine(i + 1 + ". " + governor[i]);
+            }
+            Console.Write("You voted: ");
+            int choice = int.Parse(Console.ReadLine());
+            string selectedCandidate = governor[choice - 1];
+            votesGov[selectedCandidate].Add(selectedCandidate);
+        }
+
+        static Dictionary<string, int> TallyVotesForVM(Dictionary<string, List<string>> votesVM)
+        {
+            Dictionary<string, int> voteCountsVM = new Dictionary<string, int>();
+            foreach (string candidate in vicemayor)
+            {
+                voteCountsVM.Add(candidate, 0);
+            }
+            foreach (List<string> candidateVotes in votesVM.Values)
+            {
+                foreach (string voteVM in candidateVotes)
+                {
+                    voteCountsVM[voteVM]++;
+                }
+            }
+            return voteCountsVM;
+        }
+        static Dictionary<string, int> TallyVotesForM(Dictionary<string, List<string>> votesM)
+        {
+            Dictionary<string, int> voteCountsM = new Dictionary<string, int>();
+            foreach (string candidate in mayor)
+            {
+                voteCountsM.Add(candidate, 0);
+            }
+            foreach (List<string> candidateVotes in votesM.Values)
+            {
+                foreach (string voteM in candidateVotes)
+                {
+                    voteCountsM[voteM]++;
+                }
+            }
+            return voteCountsM;
+        }
+        static Dictionary<string, int> TallyVotesForRep(Dictionary<string, List<string>> votesRep)
+        {
+            Dictionary<string, int> voteCountsRep = new Dictionary<string, int>();
+            foreach (string candidate in representative)
+            {
+                voteCountsRep.Add(candidate, 0);
+            }
+            foreach (List<string> candidateVotes in votesRep.Values)
+            {
+                foreach (string voteRep in candidateVotes)
+                {
+                    voteCountsRep[voteRep]++;
+                }
+            }
+            return voteCountsRep;
+        }
+        static Dictionary<string, int> TallyVotesForVG(Dictionary<string, List<string>> votesVG)
+        {
+            Dictionary<string, int> voteCountsVG = new Dictionary<string, int>();
+            foreach (string candidate in vicegov)
+            {
+                voteCountsVG.Add(candidate, 0);
+            }
+            foreach (List<string> candidateVotes in votesVG.Values)
+            {
+                foreach (string voteVG in candidateVotes)
+                {
+                    voteCountsVG[voteVG]++;
+                }
+            }
+            return voteCountsVG;
+        }
+        static Dictionary<string, int> TallyVotesForGov(Dictionary<string, List<string>> votesGov)
+        {
+            Dictionary<string, int> voteCountsGov = new Dictionary<string, int>();
+            foreach (string candidate in governor)
+            {
+                voteCountsGov.Add(candidate, 0);
+            }
+            foreach (List<string> candidateVotes in votesGov.Values)
+            {
+                foreach (string voteGov in candidateVotes)
+                {
+                    voteCountsGov[voteGov]++;
+                }
+            }
+            return voteCountsGov;
+        }
+        static void DisplayResultsForVM(Dictionary<string, int> voteCountsVM)
+        {
+            Console.WriteLine("Voting results for Vice Mayor:");
+            Console.WriteLine("");
+            foreach (string candidate in vicemayor)
+            {
+                Console.WriteLine(candidate + ": " + voteCountsVM[candidate]);
+            }
+        }
+        static void DisplayResultsForM(Dictionary<string, int> voteCountsM)
+        {
+            Console.WriteLine("****************************************");
+            Console.WriteLine("Voting results for Mayor:");
+            Console.WriteLine("");
+            foreach (string candidate in mayor)
+            {
+                Console.WriteLine(candidate + ": " + voteCountsM[candidate]);
+            }
+        }
+        static void DisplayResultsForRep(Dictionary<string, int> voteCountsRep)
+        {
+            Console.WriteLine("****************************************");
+            Console.WriteLine("Voting results for Representative:");
+            Console.WriteLine("");
+            foreach (string candidate in representative)
+            {
+                Console.WriteLine(candidate + ": " + voteCountsRep[candidate]);
+            }
+        }
+        static void DisplayResultsForVG(Dictionary<string, int> voteCountsVG)
+        {
+            Console.WriteLine("****************************************");
+            Console.WriteLine("Voting results for Vice Governor:");
+            Console.WriteLine("");
+            foreach (string candidate in vicegov)
+            {
+                Console.WriteLine(candidate + ": " + voteCountsVG[candidate]);
+            }
+        }
+        static void DisplayResultsForGov(Dictionary<string, int> voteCountsGov)
+        {
+            Console.WriteLine("****************************************");
+            Console.WriteLine("Voting results for Governor:");
+            Console.WriteLine("");
+            foreach (string candidate in governor)
+            {
+                Console.WriteLine(candidate + ": " + voteCountsGov[candidate]);
+            }
+        }
+    }
+}
